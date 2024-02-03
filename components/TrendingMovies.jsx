@@ -1,26 +1,48 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, StyleSheet, Text,  TouchableWithoutFeedback, View } from 'react-native'
 import React from 'react'
 import Carousel from 'react-native-snap-carousel'
+import { useNavigation } from '@react-navigation/native'
 
+let {width, height} = Dimensions.get("window")
 const TrendingMovies = ({data}) => {
+    const navigation = useNavigation()
+    const handleClick = () => {
+        navigation.navigate('Movie', item);
+    }
   return (
     <View className="mb-8">
       <Text className="text-white text-2xl font-bold mx-4 mb-5">Trending</Text>
         <Carousel 
             data={data}
             renderItem={({item}) => (
-                <MovieCard item={item} />
+                <MovieCard item={item} handleClick={handleClick}/>
             )}
+            firstItem={1}
+            sliderWidth={width}
+            itemWidth={width*0.62}
+            inactiveSlideOpacity={0.60}
+            slideStyle={{
+                display: 'flex',
+                alignItems: 'center',
+            }}
+
 
             />
     </View>
   )
 }
-const MovieCard = ({item}) => {
+const MovieCard = ({item, handleClick}) => {
   return (
-    <View>
-      <Text>{item}</Text>
-    </View>
+    <TouchableWithoutFeedback onPress={() => handleClick(item)}>
+      <Image
+        source={require(`../assets/icon.png`)}
+        style={{
+            width: width*0.6,
+            height: height*0.4,
+        }}
+        className="rounded-3xl"
+      />    
+    </TouchableWithoutFeedback>
   )
 }
 
