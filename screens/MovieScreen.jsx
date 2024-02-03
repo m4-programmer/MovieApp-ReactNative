@@ -9,6 +9,7 @@ import { Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '../components/Cast';
 import MovieList from '../components/MovieList';
+import Loading from '../components/Loading';
 
 let {width, height} = Dimensions.get("window")
 const ios = Platform.OS == 'ios'
@@ -20,6 +21,7 @@ const MovieScreen = () => {
     const [isFavorite, setFavorite] = React.useState(false)
     const [cast, setCast] = React.useState([1,2,3,4,5])
     const [similarMovies, setSimilarMovies] = React.useState([1,2,3,4,5])
+    const [loading, setLoading] = React.useState(false)
     const toggleColor = () => {
         setFavorite(prevIsFavorite => {
             const newIsFavorite = !prevIsFavorite;
@@ -50,18 +52,20 @@ const MovieScreen = () => {
         </SafeAreaView>
 
         {/* Movie Poster */}
-        <View>
-            <Image source={require(`../assets/icon.png`)} 
-            style={{width: width, height: height*0.55}} />
-
-            <LinearGradient 
-                colors={["transparent", "rgba(23,23,23,0.8)", "rgba(23,23,23,1)"]}
-                style={{ width: width, height: height*0.4}}
-                start={{ x: 0.5, y: 0 }}
-                end={{ x: 0.5, y: 1 }}
-                className="absolute bottom-0"
-              />
-        </View>
+        {loading ? <Loading /> : (
+             <View>
+                <Image source={require(`../assets/icon.png`)} 
+                style={{width: width, height: height*0.55}} />
+    
+                <LinearGradient 
+                    colors={["transparent", "rgba(23,23,23,0.8)", "rgba(23,23,23,1)"]}
+                    style={{ width: width, height: height*0.4}}
+                    start={{ x: 0.5, y: 0 }}
+                    end={{ x: 0.5, y: 1 }}
+                    className="absolute bottom-0"
+                />
+            </View>
+        )}
       </View>
 
       {/* movie details */}
